@@ -38,6 +38,13 @@ public class StudentService{
         	throw new StudentNotFoundException(studentID);
         }//if studentID no
         
+        if (coursesEnrolledByStudents.containsKey(studentID)) {
+        	List<Course> enrolledCourses = coursesEnrolledByStudents.get(studentID);
+        	if (enrolledCourses.contains(course)) {
+        		System.out.println("The student with ID ["+studentID+"] is already enrolled in "+courseName);
+        		return;
+        	}//if enrolledCourses
+        }//if coursesEnrolledByStudents
 //       
         if ( !coursesEnrolledByStudents.containsKey( studentID ) ){
             coursesEnrolledByStudents.put( studentID, new ArrayList<>() );
@@ -86,11 +93,7 @@ public class StudentService{
 //    Mostrar estudiantes
     public void showEnrolledStudents(String courseId){
     	Course course = courseList.get(courseId);
-    	
-    	if (course==null) {
-    		System.out.println("Course not found!");
-    		return;
-    	}//if course null
+
     	System.out.println("__________________________________________________________________");
     	System.out.println("==== STUDENTS ENROLLED IN COURSE: "+courseId+" ====");
     	

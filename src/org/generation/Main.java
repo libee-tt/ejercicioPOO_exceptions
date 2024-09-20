@@ -14,31 +14,38 @@ public class Main {
         studentService.addStudent( "1020", new Student( "Santiago", "1020", 33 ) );
         
         try {
+        	System.out.println("===Primera prueba, 2 inscripciones normales y un repetido: \n");
         	//INSCRIPCIÓN
         	studentService.enrollStudents( "Math", "1030" ); //normal
         	studentService.enrollStudents( "Math", "1040" ); //normal
+        	studentService.enrollStudents( "Math", "1040" ); //repetición del estudiante
+
         	studentService.enrollStudents( "FakeCourse", "1040" ); //FakeCourse
         } catch (CourseNotFoundException e) {
         	System.out.println(e.getMessage());
+        	System.out.println("__________________________________________________________________");
         }//catch
 
         try {
+        	System.out.println("===Segunda prueba, desincripción normal y una con studentID falso: \n");
         	//DESINSCRIPCIÓN 
         	studentService.unEnrollStudents("Math", "1030"); //normal
         	studentService.unEnrollStudents("Math", "9999"); //FakeStudent
         	
         } catch (StudentNotFoundException e) {
             System.out.println(e.getMessage());
-        }catch (CourseNotFoundException e) {
-        	System.out.println(e.getMessage());
-        }
+            System.out.println("__________________________________________________________________");
+        }//catch
         
         try {
+        	System.out.println("===Tercera prueba, desinscripción curso falso \n");
         	//DESINSCRIPCIÓN FALSA
         	studentService.unEnrollStudents("Philosophy", "1030"); //FakeCourse
         } catch (CourseNotFoundException e) {
         	System.out.println(e.getMessage());
-        }
+            System.out.println("__________________________________________________________________");
+
+        }//catch
         
         
         
