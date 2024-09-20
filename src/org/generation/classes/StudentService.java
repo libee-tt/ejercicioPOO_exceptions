@@ -31,11 +31,11 @@ public class StudentService{
         Course course = courseList.get( courseName );
         
 //        Excepciones enrollStudents
-        if (course==null) {
-        	throw new CourseNotFoundException();
+        if (!courseList.containsKey(courseName)) {
+        	throw new CourseNotFoundException(courseName);
         }//if course null
         if (!students.containsKey(studentID)) {
-        	throw new StudentNotFoundException();
+        	throw new StudentNotFoundException(studentID);
         }//if studentID no
         
 //       
@@ -43,14 +43,31 @@ public class StudentService{
             coursesEnrolledByStudents.put( studentID, new ArrayList<>() );
         }//if 
         coursesEnrolledByStudents.get( studentID ).add( course );
+        System.out.println("The Student with ID ["+studentID+"] was enrolled in course "+courseName);
     	}//enrollStudents
 
     
-    public void unEnrollStudents( String courseName, String studentID ){
-        Course course = courseList.get( courseName );
-        if ( coursesEnrolledByStudents.containsKey( studentID ) ){
-            coursesEnrolledByStudents.get( studentID ).remove( course );
-        }//if
+    public void unEnrollStudents( String courseName, String studentID ) throws CourseNotFoundException, StudentNotFoundException{
+    	//¿el curso existe?
+    	if (!courseList.containsKey(courseName)) {
+    		throw new CourseNotFoundException(courseName);
+    	}//if
+    	
+    	//¿el estudiante existe?
+    	if (!coursesEnrolledByStudents.containsKey(studentID)) {
+    		throw new StudentNotFoundException(studentID);
+    	}//if
+    	
+    	Course course = courseList.get( courseName );
+        //¿esta inscrito?
+    	List<Course> enrolledCourses = coursesEnrolledByStudents.get(studentID);
+    	if (enrolledCourses !=null && enrolledCourses.contains(course)){
+            enrolledCourses.remove(course);
+            System.out.println("The student with ID ["+studentID+"] has been unenrolled from "+ courseName);
+        } else {
+        	System.out.println("The student with ID ["+studentID+"] was not enrolled in "+courseName);
+        }//else
+    	
     } //unEnrollStudents
 
   
